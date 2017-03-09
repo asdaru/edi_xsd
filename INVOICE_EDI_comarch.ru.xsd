@@ -1,0 +1,195 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:simpleType name="tax_id_type">
+	  <xs:restriction base="xs:string">
+		<xs:length value="10"/>
+		<xs:pattern value="([0-9])*"/>
+	  </xs:restriction>
+	</xs:simpleType>	
+  <xs:element name="Document-Invoice">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Invoice-Header">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="InvoiceNumber">
+					<xs:simpleType>
+					  <xs:restriction base="xs:string">
+						<xs:maxLength value="35"/>
+					  </xs:restriction>
+					</xs:simpleType>
+			  </xs:element>
+              <xs:element type="xs:date" name="InvoiceDate"/>
+              <xs:element type="xs:string" name="InvoiceCurrency"/>
+              <xs:element type="xs:string" name="DocumentFunctionCode"/>
+              <xs:element type="xs:string" name="MessageType"/>
+              <xs:element name="Order">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:long" name="BuyerOrderNumber"/>
+                    <xs:element type="xs:date" name="BuyerOrderDate"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Delivery">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:short" name="DeliveryNoteNumber"/>
+                    <xs:element type="xs:int" name="ReceivingAdviceNumber" minOccurs="0" maxOccurs="1"/>
+                    <xs:element type="xs:date" name="ReceivingAdviceDate" minOccurs="0" maxOccurs="1"/>
+                    <xs:element type="xs:long" name="ReceivingAdviceId" minOccurs="0" maxOccurs="1"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Invoice-Parties">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Buyer">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:long" name="ILN"/>
+                    <xs:element type="tax_id_type" name="TaxID"/>
+                    <xs:element type="xs:int" name="UtilizationRegisterNumber"/>
+                    <xs:element type="xs:string" name="Name"/>
+                    <xs:element type="xs:string" name="StreetAndNumber"/>
+                    <xs:element type="xs:string" name="CityName"/>
+                    <xs:element type="xs:byte" name="ProvinceCode"/>
+                    <xs:element type="xs:int" name="PostalCode"/>
+                    <xs:element type="xs:string" name="Country"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Seller">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:long" name="ILN"/>
+                    <xs:element type="tax_id_type" name="TaxID"/>
+                    <xs:element type="xs:int" name="UtilizationRegisterNumber"/>
+                    <xs:element type="xs:string" name="CompanyRegistrationNumber"/>
+                    <xs:element type="xs:string" name="Name"/>
+                    <xs:element type="xs:string" name="ManagingPerson"/>
+                    <xs:element type="xs:string" name="ManagingPersonFather"/>
+                    <xs:element type="xs:string" name="AccountingContact"/>
+                    <xs:element type="xs:string" name="StreetAndNumber"/>
+                    <xs:element type="xs:string" name="CityName"/>
+                    <xs:element type="xs:byte" name="ProvinceCode"/>
+                    <xs:element type="xs:int" name="PostalCode"/>
+                    <xs:element type="xs:string" name="Country"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="DeliveryPoint">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:long" name="ILN"/>
+                    <xs:element type="tax_id_type" name="TaxID"/>
+                    <xs:element type="xs:int" name="UtilizationRegisterNumber" minOccurs="0" maxOccurs="1"/>
+                    <xs:element type="xs:string" name="Name"/>
+                    <xs:element type="xs:string" name="StreetAndNumber"/>
+                    <xs:element type="xs:string" name="CityName"/>
+                    <xs:element type="xs:byte" name="ProvinceCode"/>
+                    <xs:element type="xs:int" name="PostalCode" minOccurs="0" maxOccurs="1"/>
+                    <xs:element type="xs:string" name="Country"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Consignor">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:long" name="ILN"/>
+                    <xs:element type="tax_id_type" name="TaxID"/>
+                    <xs:element type="xs:int" name="UtilizationRegisterNumber" minOccurs="0" maxOccurs="1"/>
+                    <xs:element type="xs:string" name="Name"/>
+                    <xs:element type="xs:string" name="ManagingPerson" minOccurs="0" maxOccurs="1"/>
+                    <xs:element type="xs:string" name="ManagingPersonFather" minOccurs="0" maxOccurs="1"/>
+                    <xs:element type="xs:string" name="StreetAndNumber"/>
+                    <xs:element type="xs:string" name="CityName"/>
+                    <xs:element type="xs:byte" name="ProvinceCode"/>
+                    <xs:element type="xs:int" name="PostalCode"/>
+                    <xs:element type="xs:string" name="Country"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Invoice-Lines">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Line" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Line-Item">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:byte" name="LineNumber"/>
+                          <xs:element type="xs:long" name="EAN"/>
+                          <xs:element type="xs:string" name="BuyerItemCode"/>
+                          <xs:element type="xs:string" name="SupplierItemCode"/>
+                          <xs:element type="xs:string" name="ItemDescription"/>
+                          <xs:element type="xs:float" name="InvoiceQuantity"/>
+                          <xs:element type="xs:string" name="UnitOfMeasure"/>
+                          <xs:element type="xs:float" name="InvoiceUnitNetPrice"/>
+                          <xs:element type="xs:float" name="OrderedUnitPacksize"/>
+                          <xs:element type="xs:string" name="CountryOfOriginCode"/>
+                          <xs:element type="xs:float" name="TaxRate"/>
+                          <xs:element type="xs:float" name="TaxAmount"/>
+                          <xs:element type="xs:float" name="NetAmount"/>
+                          <xs:element type="xs:float" name="GrossAmount"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Line-Declaration" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Declaration">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:string" name="CustomsDeclarationNumber"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Invoice-Summary">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:byte" name="TotalLines"/>
+              <xs:element type="xs:float" name="TotalNetAmount"/>
+              <xs:element type="xs:float" name="TotalTaxableBasis"/>
+              <xs:element type="xs:float" name="TotalTaxAmount"/>
+              <xs:element type="xs:float" name="TotalGrossAmount"/>
+              <xs:element name="Tax-Summary">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Tax-Summary-Line">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="TaxRate"/>
+                          <xs:element type="xs:string" name="TaxName"/>
+                          <xs:element type="xs:float" name="TaxAmount"/>
+                          <xs:element type="xs:float" name="TaxableBasis"/>
+                          <xs:element type="xs:float" name="TaxableAmount"/>
+                          <xs:element type="xs:float" name="GrossAmount"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
